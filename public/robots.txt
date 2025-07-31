@@ -4,8 +4,9 @@ Allow: /
 # Sitemaps
 Sitemap: https://www.nonconsensus.me/sitemap.xml
 
-# RSS Feed
+# RSS & Atom Feeds
 # https://www.nonconsensus.me/rss.xml
+# https://www.nonconsensus.me/feed.xml
 
 # Block search engines from indexing search results pages to avoid duplicate content
 Disallow: /search?*

@@ -64,6 +64,9 @@ export const baseSEO: Metadata = {
     types: {
       'application/rss+xml': [
         { url: '/rss.xml', title: `${SITE_NAME} RSS Feed` }
+      ],
+      'application/atom+xml': [
+        { url: '/feed.xml', title: `${SITE_NAME} Atom Feed` }
       ]
     }
   },

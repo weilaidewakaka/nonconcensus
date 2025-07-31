@@ -27,6 +27,8 @@ export async function GET() {
       ${post.categories.secondary ? `<category><![CDATA[${post.categories.secondary}]]></category>` : ''}
       ${post.categories.tertiary ? `<category><![CDATA[${post.categories.tertiary}]]></category>` : ''}
       <dc:creator><![CDATA[${post.author || AUTHOR_NAME}]]></dc:creator>
+      ${post.cover ? `<enclosure url="${post.cover}" type="image/jpeg"/>` : ''}
+      ${post.cover ? `<media:content url="${post.cover}" type="image/jpeg"/>` : ''}
     </item>`
   }).join('')
 
@@ -54,14 +56,16 @@ export async function GET() {
       <link>${SITE_URL}</link>
       <width>144</width>
       <height>144</height>
-      <description><![CDATA[${SITE_NAME} Logo]]></description>
+      <description><![CDATA[${SITE_NAME} - 非共识之路博客图标]]></description>
     </image>
     <icon>${SITE_URL}/icon.jpg</icon>
     <logo>${SITE_URL}/icon.jpg</logo>
     <webfeeds:icon>${SITE_URL}/icon.jpg</webfeeds:icon>
     <webfeeds:logo>${SITE_URL}/icon.jpg</webfeeds:logo>
     <webfeeds:accentColor>2563eb</webfeeds:accentColor>
+    <webfeeds:cover image="${SITE_URL}/icon.jpg"/>
     <media:thumbnail url="${SITE_URL}/icon.jpg" width="144" height="144"/>
+    <media:content url="${SITE_URL}/icon.jpg" type="image/jpeg" width="144" height="144"/>
     <copyright>Copyright © ${new Date().getFullYear()} ${SITE_NAME}. All rights reserved.</copyright>
     <category><![CDATA[Technology]]></category>
     <category><![CDATA[Investment]]></category>
