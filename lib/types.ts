@@ -8,7 +8,6 @@ export interface Post {
     secondary: string
     tertiary?: string
   }
-  tags: string[]
   description: string
   cover?: string
   draft: boolean
@@ -33,7 +32,6 @@ export interface PostMeta {
     secondary: string
     tertiary?: string
   }
-  tags: string[]
   description: string
   cover?: string
   draft: boolean

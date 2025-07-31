@@ -20,7 +20,6 @@ function searchPosts(posts: PostMeta[], query: string): PostMeta[] {
   return posts.filter(post => 
     post.title.toLowerCase().includes(lowercaseQuery) ||
     post.description.toLowerCase().includes(lowercaseQuery) ||
-    post.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
     post.categories.primary.toLowerCase().includes(lowercaseQuery) ||
     post.categories.secondary.toLowerCase().includes(lowercaseQuery) ||
     (post.categories.tertiary && post.categories.tertiary.toLowerCase().includes(lowercaseQuery))

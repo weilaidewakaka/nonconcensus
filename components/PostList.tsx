@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { PostMeta } from '@/lib/types'
+import { getCategorySlug } from '@/lib/slugMapping'
 
 interface PostListProps {
   posts: PostMeta[]
@@ -52,7 +53,7 @@ export default function PostList({ posts, showCategories = true }: PostListProps
               {showCategories && (
                 <div className="flex items-center gap-2 text-muted">
                   <Link 
-                    href={`/category/${encodeURIComponent(post.categories.primary)}`}
+                    href={`/category/${getCategorySlug(post.categories.primary)}`}
                     className="hover:text-accent transition-colors"
                   >
                     {post.categories.primary}
@@ -61,7 +62,7 @@ export default function PostList({ posts, showCategories = true }: PostListProps
                     <>
                       <span>/</span>
                       <Link 
-                        href={`/category/${encodeURIComponent(post.categories.secondary)}`}
+                        href={`/category/${getCategorySlug(post.categories.secondary)}`}
                         className="hover:text-accent transition-colors"
                       >
                         {post.categories.secondary}
@@ -72,27 +73,13 @@ export default function PostList({ posts, showCategories = true }: PostListProps
                     <>
                       <span>/</span>
                       <Link 
-                        href={`/category/${encodeURIComponent(post.categories.tertiary)}`}
+                        href={`/category/${getCategorySlug(post.categories.tertiary)}`}
                         className="hover:text-accent transition-colors"
                       >
                         {post.categories.tertiary}
                       </Link>
                     </>
                   )}
-                </div>
-              )}
-
-              {post.tags.length > 0 && (
-                <div className="flex items-center gap-1">
-                  {post.tags.slice(0, 3).map((tag) => (
-                    <Link
-                      key={tag}
-                      href={`/tag/${encodeURIComponent(tag)}`}
-                      className="px-2 py-1 bg-border/50 rounded text-xs text-muted hover:text-accent hover:bg-accent/10 transition-colors"
-                    >
-                      {tag}
-                    </Link>
-                  ))}
                 </div>
               )}
             </div>

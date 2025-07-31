@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.nonconsensus.me/sitemap.xml
+
+# RSS Feed
+# https://www.nonconsensus.me/rss.xml
+
+# Block search engines from indexing search results pages to avoid duplicate content
+Disallow: /search?*

@@ -52,7 +52,6 @@ export function getAllPosts(): PostMeta[] {
       author: data.author || '',
       date: data.date || '',
       categories: data.categories || { primary: '', secondary: '' },
-      tags: data.tags || [],
       description: data.description || '',
       cover: data.cover,
       draft: data.draft || false,
@@ -104,7 +103,6 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     author: data.author || '',
     date: data.date || '',
     categories: data.categories || { primary: '', secondary: '' },
-    tags: data.tags || [],
     description: data.description || '',
     cover: data.cover,
     draft: data.draft || false,
@@ -123,14 +121,6 @@ export function getPostsByCategory(category: string): PostMeta[] {
   )
 }
 
-export function getPostsByTag(tag: string): PostMeta[] {
-  const allPosts = getAllPosts()
-  
-  return allPosts.filter(post => 
-    post.tags.includes(tag)
-  )
-}
-
 export function getAllCategories(): string[] {
   const allPosts = getAllPosts()
   const categories = new Set<string>()
@@ -146,16 +136,5 @@ export function getAllCategories(): string[] {
   })
   
   return Array.from(categories).sort()
-}
-
-export function getAllTags(): string[] {
-  const allPosts = getAllPosts()
-  const tags = new Set<string>()
-  
-  allPosts.forEach(post => {
-    post.tags.forEach(tag => tags.add(tag))
-  })
-  
-  return Array.from(tags).sort()
 }
 

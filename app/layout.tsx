@@ -2,20 +2,42 @@ import type { Metadata } from 'next'
 import { Inter, Noto_Serif_SC } from 'next/font/google'
 import Link from 'next/link'
 import './globals.css'
+import { baseSEO } from '@/lib/seo'
+import { WebsiteJsonLd, PersonJsonLd } from '@/components/JsonLd'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+})
+
 const notoSerifSC = Noto_Serif_SC({ 
   subsets: ['latin'], 
   weight: ['400', '500', '600', '700'],
-  variable: '--font-serif' 
+  variable: '--font-serif',
+  display: 'swap',
+  preload: true,
 })
 
 export const metadata: Metadata = {
-  title: '非共识之路',
-  description: '个人博客 - 探索技术、思考人生',
+  ...baseSEO,
   icons: {
-    icon: '/icon.jpg',
-    apple: '/icon.jpg',
+    icon: [
+      { url: '/icon.jpg', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/icon.jpg', sizes: '16x16', type: 'image/jpeg' }
+    ],
+    apple: [
+      { url: '/icon.jpg', sizes: '180x180', type: 'image/jpeg' }
+    ],
+    shortcut: '/icon.jpg',
+    other: [
+      {
+        rel: 'icon',
+        url: '/icon.jpg',
+        sizes: '192x192',
+        type: 'image/jpeg'
+      }
+    ]
   },
 }
 
@@ -26,6 +48,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
+      <head>
+        <WebsiteJsonLd />
+        <PersonJsonLd />
+      </head>
       <body className={`${inter.className} ${notoSerifSC.variable}`}>
         <div className="min-h-screen flex flex-col">
           {/* Header */}
@@ -68,8 +94,32 @@ export default function RootLayout({
           {/* Footer */}
           <footer className="border-t border-border mt-auto">
             <div className="container py-8">
-              <div className="text-center text-muted text-sm">
-                <p>© 2025 非共识之路. 保持独立思考.</p>
+              <div className="text-center space-y-4">
+                <div className="flex justify-center items-center gap-6 text-sm text-muted">
+                  <Link 
+                    href="/rss.xml" 
+                    className="hover:text-accent transition-colors flex items-center gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3.429 2.486c9.36 0 16.966 7.582 16.966 16.923h-3.464c0-7.447-6.061-13.496-13.502-13.496V2.486zM3.662 9.408c6.027 0 10.922 4.883 10.922 10.896h-3.464c0-4.107-3.348-7.443-7.458-7.443V9.408zm3.699 7.71a1.741 1.741 0 11-3.482 0 1.741 1.741 0 013.482 0z"/>
+                    </svg>
+                    RSS订阅
+                  </Link>
+                  <Link 
+                    href="https://okjk.co/DEmCji" 
+                    className="hover:text-accent transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    即刻
+                  </Link>
+                  <span className="text-muted">公众号: 非共识之路</span>
+                </div>
+                <div className="text-muted text-sm">
+                  <p>© 2025 非共识之路. 保持独立思考.</p>
+                </div>
               </div>
             </div>
           </footer>

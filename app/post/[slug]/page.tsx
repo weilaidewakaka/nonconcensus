@@ -3,6 +3,9 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import { getPostBySlug, getAllPosts } from '@/lib/posts'
 import PostList from '@/components/PostList'
+import { getCategorySlug } from '@/lib/slugMapping'
+import { generatePostSEO } from '@/lib/seo'
+import { ArticleJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd'
 
 interface PostPageProps {
   params: {
@@ -22,14 +25,12 @@ export async function generateMetadata({ params }: PostPageProps) {
   
   if (!post) {
     return {
-      title: '文章未找到',
+      title: '文章未找到 | 非共识之路',
+      description: '您访问的文章不存在或已被删除',
     }
   }
 
-  return {
-    title: `${post.title} | 非共识之路`,
-    description: post.description,
-  }
+  return generatePostSEO(post)
 }
 
 export default async function PostPage({ params }: PostPageProps) {
@@ -45,8 +46,18 @@ export default async function PostPage({ params }: PostPageProps) {
     .filter(p => p.slug !== post.slug)
     .slice(0, 3)
 
+  // 生成面包屑导航数据
+  const breadcrumbItems = [
+    { name: '首页', url: 'https://www.nonconsensus.me' },
+    { name: post.categories.primary, url: `https://www.nonconsensus.me/category/${getCategorySlug(post.categories.primary)}` },
+    { name: post.title, url: `https://www.nonconsensus.me/post/${post.slug}` },
+  ]
+
   return (
-    <div className="space-y-12">
+    <>
+      <ArticleJsonLd post={post} />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <div className="space-y-12">
       {/* Article Header */}
       <header className="text-center">
         <h1 className="text-3xl md:text-4xl font-bold leading-tight font-serif">
@@ -94,7 +105,7 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="flex flex-wrap items-center gap-2 text-muted text-sm">
           <div className="flex items-center gap-2">
             <Link 
-              href={`/category/${encodeURIComponent(post.categories.primary)}`}
+              href={`/category/${getCategorySlug(post.categories.primary)}`}
               className="hover:text-accent transition-colors"
             >
               {post.categories.primary}
@@ -103,7 +114,7 @@ export default async function PostPage({ params }: PostPageProps) {
               <>
                 <span>/</span>
                 <Link 
-                  href={`/category/${encodeURIComponent(post.categories.secondary)}`}
+                  href={`/category/${getCategorySlug(post.categories.secondary)}`}
                   className="hover:text-accent transition-colors"
                 >
                   {post.categories.secondary}
@@ -114,7 +125,7 @@ export default async function PostPage({ params }: PostPageProps) {
               <>
                 <span>/</span>
                 <Link 
-                  href={`/category/${encodeURIComponent(post.categories.tertiary)}`}
+                  href={`/category/${getCategorySlug(post.categories.tertiary)}`}
                   className="hover:text-accent transition-colors"
                 >
                   {post.categories.tertiary}
@@ -122,20 +133,6 @@ export default async function PostPage({ params }: PostPageProps) {
               </>
             )}
           </div>
-          
-          {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 ml-4">
-              {post.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tag/${encodeURIComponent(tag)}`}
-                  className="px-3 py-1 bg-border/50 rounded-full text-xs text-muted hover:text-accent hover:bg-accent/10 transition-colors"
-                >
-                  #{tag}
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
       </footer>
 
@@ -146,6 +143,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <PostList posts={otherPosts} showCategories={false} />
         </section>
       )}
-    </div>
+      </div>
+    </>
   )
 }

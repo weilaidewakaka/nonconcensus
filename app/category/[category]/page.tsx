@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation'
 import { getPostsByCategory, getAllCategories } from '@/lib/posts'
 import PostList from '@/components/PostList'
+import { getCategorySlug, getCategoryFromSlug } from '@/lib/slugMapping'
+import { generateCategorySEO } from '@/lib/seo'
+import { BreadcrumbJsonLd } from '@/components/JsonLd'
 
 interface CategoryPageProps {
   params: {
@@ -11,29 +14,35 @@ interface CategoryPageProps {
 export async function generateStaticParams() {
   const categories = getAllCategories()
   return categories.map((category) => ({
-    category: encodeURIComponent(category),
+    category: getCategorySlug(category),
   }))
 }
 
 export async function generateMetadata({ params }: CategoryPageProps) {
-  const category = decodeURIComponent(params.category)
+  const category = getCategoryFromSlug(params.category)
+  const posts = getPostsByCategory(category)
   
-  return {
-    title: `${category} | 非共识之路`,
-    description: `查看所有关于"${category}"的文章`,
-  }
+  return generateCategorySEO(category, posts.length)
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {
-  const category = decodeURIComponent(params.category)
+  const category = getCategoryFromSlug(params.category)
   const posts = getPostsByCategory(category)
   
   if (posts.length === 0) {
     notFound()
   }
 
+  // 生成面包屑导航数据
+  const breadcrumbItems = [
+    { name: '首页', url: 'https://www.nonconsensus.me' },
+    { name: category, url: `https://www.nonconsensus.me/category/${params.category}` },
+  ]
+
   return (
-    <div className="space-y-8">
+    <>
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <div className="space-y-8">
       {/* Category Header */}
       <header className="space-y-4">
         <h1 className="text-3xl md:text-4xl font-bold font-serif">
@@ -46,6 +55,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
       {/* Posts List */}
       <PostList posts={posts} />
-    </div>
+      </div>
+    </>
   )
 }

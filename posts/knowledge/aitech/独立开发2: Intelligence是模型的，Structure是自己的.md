@@ -1,12 +1,12 @@
 ---
 title: "独立开发2：Intelligence是模型的，Structure是自己的"
 slug: "learn-structure"
-author: "非共识之路"
-date: "2024-12-15"
+author: "未来的哇咔咔"
+date: "2025-07-24"
 categories:
   primary: "学习"
   secondary: "编程"
-tags: ["独立开发", "学编程", "AI编程", "软件工程", "个人成长"]
+tags: ["独立开发", "AI编程", "软件工程"]
 description: "记录独立开发过程中从完全依赖AI到逐步建立编程知识体系的血泪成长史。"
 draft: false
 ---
