@@ -42,5 +42,16 @@
   .gradient-text {
     @apply bg-gradient-to-r from-foreground to-muted bg-clip-text text-transparent;
   }
+
+  /* 统一标题与段落的间距 */
+  .prose {
+    @apply prose-h1:mb-6 prose-h1:mt-6 prose-h1:font-bold;
+    @apply prose-h2:mb-6 prose-h2:mt-6 prose-h2:font-bold;
+    @apply prose-h3:mb-6 prose-h3:mt-6 prose-h3:font-bold;
+    @apply prose-h4:mb-6 prose-h4:mt-6 prose-h4:font-bold;
+    @apply prose-h5:mb-6 prose-h5:mt-6 prose-h5:font-bold;
+    @apply prose-h6:mb-6 prose-h6:mt-6 prose-h6:font-bold;
+    @apply prose-p:mb-6 prose-p:mt-0;
+  }
   
 }
